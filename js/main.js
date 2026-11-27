@@ -118,8 +118,15 @@ document.addEventListener("DOMContentLoaded", () => {
       payToggle.setAttribute("aria-expanded", String(show));
       payToggle.textContent = show ? "Hide payment QR" : "Pay " + price + " via QR";
     };
-    const openDlg = (c, p, mode) => {
+    const astro = document.getElementById("astro-fields");
+    const setAstro = (on) => {
+      if (!astro) return;
+      astro.hidden = !on;
+      astro.querySelectorAll("input").forEach((i) => { i.disabled = !on; i.required = on; });
+    };
+    const openDlg = (c, p, mode, extra) => {
       course = c; price = p;
+      setAstro(extra === "birth");
       dlg.querySelectorAll("[data-dlg-course]").forEach((n) => (n.textContent = c));
       dlg.querySelectorAll("[data-dlg-price]").forEach((n) => (n.textContent = p));
       const paymentAmount = p.toLowerCase().includes("enquiry") ? "the fee confirmed by your team" : p;
@@ -130,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (mode === "pay") qrPanel.scrollIntoView({ block: "nearest" });
     };
     document.querySelectorAll("[data-open]").forEach((b) =>
-      b.addEventListener("click", () => openDlg(b.dataset.course, b.dataset.price, b.dataset.open)));
+      b.addEventListener("click", () => openDlg(b.dataset.course, b.dataset.price, b.dataset.open, b.dataset.extra)));
     payToggle.addEventListener("click", () => setQr(qrPanel.hidden));
     dlg.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => dlg.close()));
     dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); }); /* click on backdrop */
@@ -139,7 +146,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const d = new FormData(form);
       const msg = "Hello " + BRAND_NAME + ", I want to enroll in the course: " + course + " (" + price + ").\n" +
         "Name: " + d.get("name") + "\nEmail: " + d.get("email") + "\nPhone: +91 " + d.get("phone") +
-        "\nAge: " + d.get("age") + "\nCity: " + d.get("city") + "\nPlease share the next steps.";
+        "\nAge: " + d.get("age") + "\nCity: " + d.get("city") +
+        (d.get("dob") ? "\nDate of Birth: " + d.get("dob") + "\nExact Birth Time: " + d.get("birth_time") + "\nBirth Place: " + d.get("birth_place") + "\nCurrent Profession: " + d.get("profession") : "") +
+        "\nPlease share the next steps.";
       window.open(waLink(msg), "_blank", "noopener");
       status.textContent = "Your details are ready in WhatsApp. Press send there. For courses with fee on enquiry, confirm the exact amount and billing cycle before paying by QR.";
     });
