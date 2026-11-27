@@ -535,3 +535,14 @@ div:has(> img[src*="course-option-scalping"]) {
     aspect-ratio: auto !important;
     overflow: visible !important;
 }
+/* Astrology & Trading Alignment segment */
+.astro-intro{max-width:760px;margin:0 auto 2.2rem;text-align:center}
+.astro-intro p{margin:0 0 .9rem;color:#e6dcc4}
+.astro-sub{text-align:center;margin:0 0 1.4rem}
+.astro-grid .card h3{font-size:1.1rem;margin-bottom:.6rem}
+.astro-purpose{max-width:760px;margin:2.4rem auto 0;text-align:center}
+.astro-purpose p{margin:0 0 .9rem;color:#e6dcc4}
+.astro-purpose .astro-tag{font-family:var(--font-head);font-size:1.15rem;color:var(--primary-soft);margin-top:1.2rem}
+#astro-fields:not([hidden]){display:grid;gap:1rem}
+input[type="date"],input[type="time"]{color-scheme:dark}
+.fee-box .note{margin-top:1rem}
